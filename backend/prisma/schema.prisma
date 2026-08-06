@@ -12,4 +12,24 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id          Int         @id @default(autoincrement())
+  name        String 
+  email       String
+  cpf         String
+  password    String
+  createdAt   DateTime    
+  updatedAt   DateTime    @updatedAt()
+}
 
+model Rooms {
+  id          Int         @id @default(autoincrement())
+  number      Int
+}
+
+model Reservation {
+  id          Int         @id @default(autoincrement())
+  start       DateTime
+  end         DateTime
+  
+}
