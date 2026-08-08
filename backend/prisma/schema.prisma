@@ -1,35 +1,115 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ReservationStatus {
+  ACTIVE
+  CANCELLED
+  COMPLETED
+}
+
+// ==========================================
+// MODELS
+// ==========================================
 
 model User {
-  id          Int         @id @default(autoincrement())
-  name        String 
-  email       String
-  cpf         String
-  password    String
-  createdAt   DateTime    
-  updatedAt   DateTime    @updatedAt()
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  cpf       String?  @unique
+  password  String   // Deve armazenar o hash da senha
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reservations  Reservation[]
+  favoriteRooms FavoriteRoom[]
+
+  @@map("users")
 }
 
-model Rooms {
-  id          Int         @id @default(autoincrement())
-  number      Int
+model Room {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  capacity    Int
+  isActive    Boolean  @default(true) // Permite inativar a sala ao invés de excluí-la
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  resources     RoomResource[]
+  reservations  Reservation[]
+  favoritedBy   FavoriteRoom[]
+
+  @@map("rooms")
+}
+
+model Resource {
+  id   String @id @default(uuid())
+  name String @unique 
+
+  rooms RoomResource[]
+
+  @@map("resources")
+}
+
+// Tabela aux para relação Muitos-para-Muitos entre Salas e Recursos
+model RoomResource {
+  roomId     String
+  room       Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([roomId, resourceId])
+  @@map("room_resources")
 }
 
 model Reservation {
-  id          Int         @id @default(autoincrement())
-  start       DateTime
-  end         DateTime
-  
+  id        String            @id @default(uuid())
+  title     String // Motivo ou título da reserva
+  startTime DateTime
+  endTime   DateTime
+  status    ReservationStatus @default(ACTIVE)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id])
+
+  // Índice composto para otimizar as consultas de validação de conflitos de horários na mesma sala
+  @@index([roomId, startTime, endTime])
+  @@map("reservations")
+}
+
+// Tabela aux para gerenciar a lista de salas favoritas dos usuários
+model FavoriteRoom {
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roomId])
+  @@map("favorite_rooms")
 }
