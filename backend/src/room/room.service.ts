@@ -10,7 +10,7 @@ export class RoomService {
   async create(createRoomDto: CreateRoomDto) {
     const { resources, ...roomData } = createRoomDto;
     
-    const connectResources = [];
+    const connectResources: any[] = [];
     if (resources && resources.length > 0) {
       for (const resourceName of resources) {
         let res = await this.prisma.resource.findUnique({ where: { name: resourceName } });
