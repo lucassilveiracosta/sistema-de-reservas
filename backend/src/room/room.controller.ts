@@ -6,7 +6,10 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
+import { DocsRoomCreate, DocsRoomFindAll, DocsRoomFindOne, DocsRoomUpdate, DocsRoomRemove } from './docs/room.docs';
 
+@ApiTags('Gerenciamento de Salas')
 @Controller('room')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class RoomController {
@@ -14,11 +17,13 @@ export class RoomController {
 
   @Post()
   @Roles(Role.ADMIN)
+  @DocsRoomCreate()
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
   }
 
   @Get()
+  @DocsRoomFindAll()
   findAll(
     @Query('capacity') capacity?: number,
     @Query('resourceId') resourceId?: string,
@@ -29,18 +34,21 @@ export class RoomController {
   }
 
   @Get(':id')
+  @DocsRoomFindOne()
   findOne(@Param('id') id: string) {
     return this.roomService.findOne(id);
   }
 
   @Patch(':id')
   @Roles(Role.ADMIN)
+  @DocsRoomUpdate()
   update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
     return this.roomService.update(id, updateRoomDto);
   }
 
   @Delete(':id')
   @Roles(Role.ADMIN)
+  @DocsRoomRemove()
   remove(@Param('id') id: string) {
     return this.roomService.remove(id); // Soft delete
   }
