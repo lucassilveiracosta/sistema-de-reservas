@@ -5,11 +5,11 @@ services:
     image: postgres:15
     container_name: reservas_db
     environment:
-      POSTGRES_USER: root
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: rootpassword
       POSTGRES_DB: seedabit
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -34,7 +34,7 @@ services:
     ports:
       - "3003:3003"
     environment:
-      DATABASE_URL: "postgresql://root:rootpassword@postgres:5432/seedabit?schema=public"
+      DATABASE_URL: "postgresql://postgres:rootpassword@postgres:5432/seedabit?schema=public"
       JWT_SECRET: "sua_chave_secreta_super_segura"
       PORT: 3003
     depends_on:
