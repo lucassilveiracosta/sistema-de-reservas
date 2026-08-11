@@ -11,6 +11,15 @@ export class ReservationService {
     const start = new Date(createReservationDto.startTime);
     const end = new Date(createReservationDto.endTime);
 
+    // Verifica se a sala existe para não dar erro 500 de Foreign Key
+    const room = await this.prisma.room.findUnique({
+      where: { id: createReservationDto.roomId }
+    });
+    
+    if (!room) {
+      throw new NotFoundException('A sala especificada não foi encontrada.');
+    }
+
     // Validação de horários conflitantes na mesma sala
     const conflicting = await this.prisma.reservation.findFirst({
       where: {
