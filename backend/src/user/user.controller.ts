@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { DocsUserRegister, DocsUserLogin, DocsUserAddFavorite, DocsUserGetFavorites, DocsUserRemoveFavorite } from './docs/user.docs';
+import { DocsUserRegister, DocsUserLogin, DocsUserAddFavorite, DocsUserGetFavorites, DocsUserRemoveFavorite } from './docs/user.swagger';
 
 @ApiTags('Usuários & Autenticação')
 @Controller('user')

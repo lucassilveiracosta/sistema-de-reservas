@@ -7,7 +7,7 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
-import { DocsRoomCreate, DocsRoomFindAll, DocsRoomFindOne, DocsRoomUpdate, DocsRoomRemove } from './docs/room.docs';
+import { DocsRoomCreate, DocsRoomFindAll, DocsRoomFindOne, DocsRoomUpdate, DocsRoomRemove } from './docs/room.swagger';
 
 @ApiTags('Gerenciamento de Salas')
 @Controller('room')

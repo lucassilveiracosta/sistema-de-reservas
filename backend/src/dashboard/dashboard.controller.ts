@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { DocsDashboardStatistics } from './docs/dashboard.docs';
+import { DocsDashboardStatistics } from './docs/dashboard.swagger';
 
 @ApiTags('Dashboard & Estatísticas')
 @Controller('dashboard')

@@ -3,7 +3,7 @@ import { ReservationService } from './reservation.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { DocsReservationCreate, DocsReservationFindAll, DocsReservationHistory, DocsReservationCancel } from './docs/reservation.docs';
+import { DocsReservationCreate, DocsReservationFindAll, DocsReservationHistory, DocsReservationCancel } from './docs/reservation.swagger';
 
 @ApiTags('Agendamento de Reservas')
 @Controller('reservation')
