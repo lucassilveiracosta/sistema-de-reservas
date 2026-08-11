@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: reservas_db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: seedabit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: reservas_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@seedabit.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: reservas_backend
+    ports:
+      - "3003:3003"
+    environment:
+      DATABASE_URL: "postgresql://root:rootpassword@postgres:5432/seedabit?schema=public"
+      JWT_SECRET: "sua_chave_secreta_super_segura"
+      PORT: 3003
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
