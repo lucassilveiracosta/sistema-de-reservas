@@ -21,9 +21,11 @@ export class RoomController {
   @Get()
   findAll(
     @Query('capacity') capacity?: number,
-    @Query('resourceId') resourceId?: string
+    @Query('resourceId') resourceId?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
   ) {
-    return this.roomService.findAll({ capacity, resourceId });
+    return this.roomService.findAll({ capacity, resourceId, startDate, endDate });
   }
 
   @Get(':id')

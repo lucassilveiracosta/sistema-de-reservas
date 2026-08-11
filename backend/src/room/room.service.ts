@@ -36,7 +36,7 @@ export class RoomService {
     });
   }
 
-  async findAll(filters: { capacity?: number; resourceId?: string }) {
+  async findAll(filters: { capacity?: number; resourceId?: string; startDate?: string; endDate?: string }) {
     const where: any = { isActive: true };
     
     if (filters.capacity) {
@@ -47,6 +47,20 @@ export class RoomService {
       where.resources = {
         some: {
           resourceId: filters.resourceId
+        }
+      };
+    }
+
+    // Filtragem avançada: traz apenas salas que NÃO possuem uma reserva conflitante no período
+    if (filters.startDate && filters.endDate) {
+      const start = new Date(filters.startDate);
+      const end = new Date(filters.endDate);
+      
+      where.reservations = {
+        none: {
+          status: 'ACTIVE',
+          startTime: { lt: end },
+          endTime: { gt: start },
         }
       };
     }
