@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -17,7 +17,7 @@ async function main() {
       email: 'admin@seedabit.com.br',
       cpf: '000.000.000-00',
       password: passwordHash,
-      role: 'ADMIN',
+      role: Role.ADMIN,
     },
   });
   console.log('✅ Admin criado:', admin.email);
@@ -31,7 +31,7 @@ async function main() {
       email: 'joao@seedabit.com.br',
       cpf: '111.111.111-11',
       password: passwordHash,
-      role: 'COLLABORATOR',
+      role: Role.COLLABORATOR,
     },
   });
   console.log('✅ Colaborador 1 criado:', collab1.email);
@@ -45,7 +45,7 @@ async function main() {
       email: 'maria@seedabit.com.br',
       cpf: '222.222.222-22',
       password: passwordHash,
-      role: 'COLLABORATOR',
+      role: Role.COLLABORATOR,
     },
   });
   console.log('✅ Colaborador 2 criado:', collab2.email);
