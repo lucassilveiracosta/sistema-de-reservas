@@ -31,24 +31,24 @@ async function main() {
       email: 'joao@seedabit.com.br',
       cpf: '111.111.111-11',
       password: passwordHash,
-      role: Role.COLLABORATOR,
+      role: Role.USER,
     },
   });
-  console.log('✅ Colaborador 1 criado:', collab1.email);
+  console.log('✅ Usuário comum 1 criado:', collab1.email);
 
   // Criar COLLABORATOR 2
   const collab2 = await prisma.user.upsert({
     where: { email: 'maria@seedabit.com.br' },
     update: {},
     create: {
-      name: 'Maria Colaboradora',
+      name: 'Maria Comum',
       email: 'maria@seedabit.com.br',
       cpf: '222.222.222-22',
       password: passwordHash,
-      role: Role.COLLABORATOR,
+      role: Role.USER,
     },
   });
-  console.log('✅ Colaborador 2 criado:', collab2.email);
+  console.log('✅ Usuário comum 2 criado:', collab2.email);
 
   console.log('🚀 Seeding de usuários finalizado!');
 }
