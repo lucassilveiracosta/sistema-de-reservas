@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/services/api";
+import ReservationModal from "@/components/ReservationModal";
 
 export default function Dashboard() {
   const [rooms, setRooms] = useState<{id: string, name: string, capacity: number, description?: string}[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState<{id: string, name: string} | null>(null);
 
   useEffect(() => {
     fetchWithAuth("/room")
@@ -20,6 +22,12 @@ export default function Dashboard() {
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     window.location.href = "/";
+  };
+
+  const handleReservationSuccess = () => {
+    setSelectedRoom(null);
+    alert("Reserva concluída com sucesso!");
+    // Aqui poderíamos recarregar as salas ou reservas, caso o dashboard as mostrasse
   };
 
   return (
@@ -55,7 +63,7 @@ export default function Dashboard() {
               <p className="text-slate-500 text-sm mb-6 min-h-[40px]">{room.description || "Sem descrição"}</p>
               
               <button 
-                onClick={() => alert(`Funcionalidade de reservar a sala ${room.name} em breve!`)}
+                onClick={() => setSelectedRoom(room)}
                 className="w-full py-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold group-hover:bg-indigo-600 group-hover:text-white transition-colors"
               >
                 Agendar Horário
@@ -64,6 +72,14 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
+
+      {selectedRoom && (
+        <ReservationModal
+          room={selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+          onSuccess={handleReservationSuccess}
+        />
+      )}
     </main>
   );
 }
