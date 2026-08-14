@@ -11,7 +11,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const data = await fetchWithAuth("/auth/login", {
+      const data = await fetchWithAuth("/user/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
