@@ -21,7 +21,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3003);
+  await app.listen(process.env.PORT ?? 3003, '0.0.0.0');
   console.log("API running on: http://localhost:" + process.env.PORT + "/api");
   console.log("API running on: http://localhost:" + process.env.PORT + "/api/docs");
   console.log("Frontend running on: http://localhost:" + process.env.FRONTEND_PORT);
