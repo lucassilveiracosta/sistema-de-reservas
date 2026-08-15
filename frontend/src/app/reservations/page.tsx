@@ -59,15 +59,15 @@ export default function Reservations() {
       <Header />
       <main className="max-w-7xl mx-auto p-8 md:p-12">
         <header className="mb-10">
-          <h1 className="text-3xl font-extrabold text-indigo-900 tracking-tight">Minhas Reservas</h1>
+          <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight">Minhas Reservas</h1>
           <p className="text-slate-500 mt-2 font-medium">Acompanhe seu histórico de agendamentos de salas.</p>
         </header>
 
         {loading && <p className="text-slate-500 animate-pulse font-medium">Carregando histórico...</p>}
-        {error && <p className="text-red-500 p-4 bg-red-50 rounded-xl border border-red-100 font-medium">{error}</p>}
+        {error && <p className="text-red-500 p-4 bg-red-50 rounded-md border border-red-100 font-medium">{error}</p>}
 
         {!loading && !error && reservations.length === 0 && (
-          <div className="p-12 flex flex-col items-center justify-center text-center bg-white border border-slate-200 border-dashed rounded-3xl">
+          <div className="p-12 flex flex-col items-center justify-center text-center bg-white border border-slate-200 border-dashed rounded-lg">
             <Calendar size={48} className="text-slate-300 mb-4" />
             <p className="text-slate-500 font-medium">Você ainda não tem nenhuma reserva agendada.</p>
           </div>
@@ -81,10 +81,10 @@ export default function Reservations() {
             const isPast = end < new Date();
 
             return (
-              <div key={res.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+              <div key={res.id} className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-indigo-900 truncate pr-2" title={res.title}>{res.title}</h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                  <h3 className="text-xl font-bold text-blue-900 truncate pr-2" title={res.title}>{res.title}</h3>
+                  <span className={`px-3 py-1 rounded-md text-xs font-bold ${
                     !isActive ? "bg-red-50 text-red-700" :
                     isPast ? "bg-slate-100 text-slate-600" : "bg-green-50 text-green-700"
                   }`}>
@@ -108,7 +108,7 @@ export default function Reservations() {
                   <div className="pt-4 border-t border-slate-100">
                     <button 
                       onClick={() => setCancelId(res.id)}
-                      className="w-full py-2.5 rounded-xl bg-red-50 text-red-600 font-bold hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center gap-2 text-sm"
+                      className="w-full py-2.5 rounded-md bg-red-50 text-red-600 font-bold hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center gap-2 text-sm"
                     >
                       <XCircle size={16} /> Cancelar Reserva
                     </button>
@@ -121,8 +121,8 @@ export default function Reservations() {
       </main>
 
       {cancelId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 flex flex-col items-center text-center animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 bg-slate-900/60 animate-in fade-in duration-200">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-sm p-6 flex flex-col items-center text-center animate-in zoom-in-95 duration-200">
             <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4">
               <XCircle size={32} />
             </div>
@@ -132,14 +132,14 @@ export default function Reservations() {
             <div className="w-full flex gap-3">
               <button 
                 onClick={() => setCancelId(null)}
-                className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors"
+                className="flex-1 py-3 rounded-md border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors"
               >
                 Voltar
               </button>
               <button 
                 onClick={handleCancel}
                 disabled={cancelLoading}
-                className="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold shadow-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+                className="flex-1 py-3 rounded-md bg-red-600 text-white font-bold shadow-lg hover:bg-red-700 transition-colors disabled:opacity-50"
               >
                 {cancelLoading ? "Cancelando..." : "Sim, Cancelar"}
               </button>

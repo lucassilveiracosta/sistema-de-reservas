@@ -94,21 +94,21 @@ export default function AdminRooms() {
       <main className="max-w-7xl mx-auto p-8 md:p-12">
         <header className="mb-10 flex justify-between items-end">
           <div>
-            <h1 className="text-3xl font-extrabold text-indigo-900 tracking-tight">Administração de Salas</h1>
+            <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight">Administração de Salas</h1>
             <p className="text-slate-500 mt-2 font-medium">Gerencie o catálogo de salas disponíveis para reservas.</p>
           </div>
           <button 
             onClick={() => handleOpenModal()}
-            className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-indigo-700 transition-colors"
+            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md font-bold shadow-lg hover:bg-blue-700 transition-colors"
           >
             <Plus size={20} /> Nova Sala
           </button>
         </header>
 
         {loading && <p className="text-slate-500 animate-pulse font-medium">Carregando salas...</p>}
-        {error && <p className="text-red-500 p-4 bg-red-50 rounded-xl border border-red-100 font-medium">{error}</p>}
+        {error && <p className="text-red-500 p-4 bg-red-50 rounded-md border border-red-100 font-medium">{error}</p>}
 
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 text-sm">
@@ -122,7 +122,7 @@ export default function AdminRooms() {
               {rooms.map(room => (
                 <tr key={room.id} className="hover:bg-slate-50 transition-colors group">
                   <td className="p-6 font-bold text-slate-800 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
                       <MapPin size={20} />
                     </div>
                     {room.name}
@@ -167,8 +167,8 @@ export default function AdminRooms() {
 
       {/* Modal CRUD */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 bg-slate-900/60 animate-in fade-in duration-200">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
             <header className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
               <h3 className="text-xl font-bold text-slate-900">{editRoom ? "Editar Sala" : "Cadastrar Nova Sala"}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">
@@ -183,7 +183,7 @@ export default function AdminRooms() {
                 <label className="block text-sm font-semibold text-slate-700 mb-2">Nome da Sala</label>
                 <input 
                   type="text" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 rounded-md bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Ex: Sala Ada Lovelace"
                 />
               </div>
@@ -191,22 +191,22 @@ export default function AdminRooms() {
                 <label className="block text-sm font-semibold text-slate-700 mb-2">Capacidade (Pessoas)</label>
                 <input 
                   type="number" required min="1" value={formData.capacity} onChange={e => setFormData({...formData, capacity: Number(e.target.value)})}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 rounded-md bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">Descrição (Opcional)</label>
                 <textarea 
                   value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 rounded-md bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Ex: Possui TV e quadro branco" rows={3}
                 ></textarea>
               </div>
               <footer className="mt-2 flex gap-3">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-700 hover:bg-slate-50">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-md border border-slate-200 font-bold text-slate-700 hover:bg-slate-50">
                   Cancelar
                 </button>
-                <button type="submit" disabled={formLoading} className="flex-1 py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 disabled:opacity-50">
+                <button type="submit" disabled={formLoading} className="flex-1 py-3 rounded-md bg-blue-600 text-white font-bold hover:bg-blue-700 disabled:opacity-50">
                   {formLoading ? "Salvando..." : "Salvar Sala"}
                 </button>
               </footer>

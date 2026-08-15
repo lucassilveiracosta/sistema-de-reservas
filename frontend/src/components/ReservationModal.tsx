@@ -154,13 +154,13 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
 
   const renderHeader = () => (
     <div className="flex justify-between items-center mb-4">
-      <button type="button" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 hover:bg-slate-200 rounded-full text-slate-600 transition-colors">
+      <button type="button" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 hover:bg-slate-200 rounded-md text-slate-600 transition-colors">
         <ChevronLeft size={20} />
       </button>
       <h4 className="font-bold text-slate-800 capitalize">
         {format(currentMonth, 'MMMM yyyy', { locale: ptBR })}
       </h4>
-      <button type="button" onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-2 hover:bg-slate-200 rounded-full text-slate-600 transition-colors">
+      <button type="button" onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-2 hover:bg-slate-200 rounded-md text-slate-600 transition-colors">
         <ChevronRight size={20} />
       </button>
     </div>
@@ -205,9 +205,9 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
             key={day.toString()}
             disabled={!isCurrentMonth || isPast}
             onClick={() => handleDayClick(cloneDay)}
-            className={`p-2 w-full flex justify-center items-center h-10 text-sm rounded-xl transition-all font-medium
-              ${!isCurrentMonth || isPast ? 'text-slate-300 cursor-not-allowed' : 'text-slate-700 hover:bg-indigo-50 hover:text-indigo-600'}
-              ${isSelected ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md' : ''}
+            className={`p-2 w-full flex justify-center items-center h-10 text-sm rounded-md transition-all font-medium
+              ${!isCurrentMonth || isPast ? 'text-slate-300 cursor-not-allowed' : 'text-slate-700 hover:bg-blue-50 hover:text-blue-600'}
+              ${isSelected ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md' : ''}
             `}
           >
             {format(day, 'd')}
@@ -222,21 +222,21 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 bg-slate-900/60 animate-in fade-in duration-200">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
         
-        <header className="px-8 py-5 border-b border-slate-100 flex justify-between items-center bg-indigo-50/50">
+        <header className="px-8 py-5 border-b border-slate-100 flex justify-between items-center bg-blue-50/50">
           <div>
-            <h2 className="text-2xl font-extrabold text-indigo-900 flex items-center gap-2">
-              <CalendarIcon className="text-indigo-600" /> Agendar Sala
+            <h2 className="text-2xl font-extrabold text-blue-900 flex items-center gap-2">
+              <CalendarIcon className="text-blue-600" /> Agendar Sala
             </h2>
-            <p className="text-sm text-indigo-600/80 font-semibold mt-1 flex items-center gap-1">
+            <p className="text-sm text-blue-600/80 font-semibold mt-1 flex items-center gap-1">
               {room.name}
             </p>
           </div>
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-200"
+            className="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-md hover:bg-slate-200"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -246,7 +246,7 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
 
         <div className="p-8 overflow-y-auto flex-1">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm font-medium rounded-xl border border-red-100 flex items-center gap-2">
+            <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm font-medium rounded-md border border-red-100 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               {error}
             </div>
@@ -255,11 +255,11 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
           <div className="grid lg:grid-cols-2 gap-10">
             <div>
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">1</div>
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">1</div>
                 <h3 className="text-lg font-bold text-slate-800">Escolha a Data</h3>
               </div>
               
-              <div className="border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+              <div className="border border-slate-200 rounded-md p-6 bg-white shadow-sm">
                 {renderHeader()}
                 {renderDays()}
                 {renderCells()}
@@ -269,18 +269,18 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
             <div className="space-y-8">
               <div>
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">2</div>
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">2</div>
                   <h3 className="text-lg font-bold text-slate-800">Escolha o Horário</h3>
                 </div>
 
                 {!selectedDate ? (
-                  <div className="bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-slate-400 text-center">
+                  <div className="bg-slate-50 border border-slate-200 border-dashed rounded-md p-8 flex flex-col items-center justify-center text-slate-400 text-center">
                     <CalendarIcon size={32} className="mb-3 opacity-50" />
                     <p className="font-medium text-sm">Selecione uma data no calendário primeiro.</p>
                   </div>
                 ) : fetchingDay ? (
                   <div className="flex items-center justify-center p-8">
-                    <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                    <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-md animate-spin"></div>
                   </div>
                 ) : (
                   <div className="space-y-6">
@@ -299,10 +299,10 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
                               disabled={isOccupied}
                               onClick={() => setSelectedStartBlock(block)}
                               className={`
-                                py-2 px-1 text-sm font-bold rounded-xl border transition-all
+                                py-2 px-1 text-sm font-bold rounded-md border transition-all
                                 ${isOccupied ? 'bg-red-50 text-red-300 border-red-100 cursor-not-allowed line-through' : 
-                                  isSelected ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-200 ring-2 ring-indigo-600 ring-offset-1' : 
-                                  'bg-white text-slate-600 border-slate-200 hover:border-indigo-400 hover:bg-indigo-50'}
+                                  isSelected ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200 ring-2 ring-blue-600 ring-offset-1' : 
+                                  'bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:bg-blue-50'}
                               `}
                             >
                               {block}
@@ -318,7 +318,7 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
                           <CheckCircle2 size={16} className="text-green-500" /> Horário de Término
                         </p>
                         <select 
-                          className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-slate-700 shadow-sm"
+                          className="w-full px-4 py-3 rounded-md bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-slate-700 shadow-sm"
                           value={selectedEndBlock}
                           onChange={(e) => setSelectedEndBlock(e.target.value)}
                         >
@@ -335,7 +335,7 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
               {selectedEndBlock && (
                 <div className="animate-in slide-in-from-top-2 fade-in duration-300 pt-6 border-t border-slate-100">
                   <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">3</div>
+                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">3</div>
                     <h3 className="text-lg font-bold text-slate-800">Detalhes</h3>
                   </div>
                   <div>
@@ -345,7 +345,7 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-slate-800 shadow-sm placeholder:text-slate-300"
+                      className="w-full px-4 py-3 rounded-md bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-slate-800 shadow-sm placeholder:text-slate-300"
                       placeholder="Ex: Alinhamento de Produto"
                     />
                   </div>
@@ -359,7 +359,7 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
           <button 
             type="button"
             onClick={onClose}
-            className="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-100 hover:text-slate-900 transition-all"
+            className="px-6 py-3 rounded-md bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-100 hover:text-slate-900 transition-all"
           >
             Cancelar
           </button>
@@ -367,10 +367,10 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
             type="button"
             onClick={handleSubmit}
             disabled={loading || !selectedDate || !selectedStartBlock || !selectedEndBlock || !title.trim()}
-            className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-bold tracking-wide shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-8 py-3 rounded-md bg-blue-600 text-white font-bold tracking-wide shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {loading ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-md animate-spin"></div>
             ) : "Confirmar Reserva"}
           </button>
         </footer>
