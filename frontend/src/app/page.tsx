@@ -16,12 +16,6 @@ export default function Home() {
           >
             Entrar
           </a>
-          <a
-            href="/dashboard"
-            className="px-8 py-3 rounded-full bg-white text-indigo-600 font-semibold shadow-lg border border-indigo-100 hover:bg-slate-50 hover:shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-200"
-          >
-            Ver Salas
-          </a>
         </div>
       </div>
 
