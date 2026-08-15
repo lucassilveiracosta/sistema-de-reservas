@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/services/api";
 import ReservationModal from "@/components/ReservationModal";
+import Header from "@/components/Header";
 
 export default function Dashboard() {
   const [rooms, setRooms] = useState<{id: string, name: string, capacity: number, description?: string}[]>([]);
@@ -19,25 +20,15 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    window.location.href = "/";
-  };
-
   const handleReservationSuccess = () => {
     setSelectedRoom(null);
     alert("Reserva concluída com sucesso!");
-    // Aqui poderíamos recarregar as salas ou reservas, caso o dashboard as mostrasse
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 p-8 md:p-16">
-      <header className="flex justify-between items-center mb-12">
-        <h1 className="text-4xl font-extrabold text-indigo-900 tracking-tight">Dashboard</h1>
-        <button onClick={handleLogout} className="px-6 py-2 rounded-full border border-indigo-200 text-indigo-600 font-semibold hover:bg-indigo-50 transition-colors">
-          Sair
-        </button>
-      </header>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <Header />
+      <main className="max-w-7xl mx-auto p-8 md:p-12">
 
       <section>
         <h2 className="text-2xl font-bold text-slate-700 mb-6">Salas Disponíveis</h2>
@@ -81,5 +72,6 @@ export default function Dashboard() {
         />
       )}
     </main>
+    </div>
   );
 }

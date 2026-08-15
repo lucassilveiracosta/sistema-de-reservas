@@ -17,6 +17,10 @@ export default function Login() {
       });
       if (data && data.access_token) {
         localStorage.setItem("access_token", data.access_token);
+        if (data.user) {
+          localStorage.setItem("user_role", data.user.role);
+          localStorage.setItem("user_name", data.user.name);
+        }
         window.location.href = "/dashboard";
       }
     } catch (e: unknown) {
