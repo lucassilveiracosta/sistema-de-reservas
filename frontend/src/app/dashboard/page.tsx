@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/services/api";
 import ReservationModal from "@/components/ReservationModal";
 import Header from "@/components/Header";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
 
 export default function Dashboard() {
   const [rooms, setRooms] = useState<{id: string, name: string, capacity: number, description?: string}[]>([]);
@@ -23,12 +24,16 @@ export default function Dashboard() {
   const handleReservationSuccess = () => {
     setSelectedRoom(null);
     alert("Reserva concluída com sucesso!");
+    // O calendário já possui auto-refresh, mas recarregar a página ou notificar é bom
+    window.location.reload();
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Header />
       <main className="max-w-7xl mx-auto p-8 md:p-12">
+      
+      <WeeklyCalendar />
 
       <section>
         <h2 className="text-2xl font-bold text-slate-700 mb-6">Salas Disponíveis</h2>
