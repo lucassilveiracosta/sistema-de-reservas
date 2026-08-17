@@ -67,9 +67,6 @@ export default function Login() {
             {loading ? "Entrando..." : "Entrar na Conta"}
           </button>
         </form>
-        <p className="mt-6 text-center text-sm text-slate-500">
-          Não tem conta? <a href="#" className="text-blue-600 hover:underline">Fale com um admin</a>.
-        </p>
       </div>
     </main>
   );
