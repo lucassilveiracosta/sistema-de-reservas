@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sistema de Reservas",
+  title: "ReservADA",
   description: "Gerenciamento de Salas",
 };
 

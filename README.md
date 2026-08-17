@@ -1,4 +1,4 @@
-# Seed a Bit: Sistema de Reservas de Salas
+# Seed a Bit: ReservADA
 
 Este projeto foi desenvolvido como resolução do **Desafio Prático para Habilitação de Tech Lead 2026.2** da Seed a Bit.
 O sistema permite o gerenciamento completo de reservas de salas, contemplando autenticação, controle de acesso (Admin vs User), listagem, criação e cancelamento de reservas com validação de conflito de horários.

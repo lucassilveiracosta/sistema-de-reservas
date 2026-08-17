@@ -3,7 +3,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-slate-50">
       <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm flex flex-col space-y-8 text-center">
         <h1 className="text-5xl font-extrabold text-blue-900 tracking-tight">
-          Sistema de Reservas
+          ReservADA
         </h1>
         
         <div className="flex gap-4 mt-8">

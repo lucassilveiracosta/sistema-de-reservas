@@ -35,7 +35,7 @@ export default function Header() {
         <div className="flex items-center gap-8">
           <h1 className="text-xl font-extrabold text-blue-900 tracking-tight flex items-center gap-2">
             <span className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center">S</span>
-            Seed Rooms
+            ReservADA
           </h1>
           
           <nav className="hidden md:flex items-center gap-1">
