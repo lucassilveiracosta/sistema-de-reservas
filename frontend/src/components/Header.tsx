@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Header() {
   const [role, setRole] = useState<string | null>(null);
@@ -34,7 +35,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <h1 className="text-xl font-extrabold text-blue-900 tracking-tight flex items-center gap-2">
-            <span className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center">S</span>
+            <Image src="/img/ADA.png" alt="ReservADA Logo" width={32} height={32} className="rounded-md object-contain" />
             ReservADA
           </h1>
           
