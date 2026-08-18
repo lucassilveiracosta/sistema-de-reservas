@@ -4,22 +4,48 @@ import { fetchWithAuth } from "@/services/api";
 import ReservationModal from "@/components/ReservationModal";
 import Header from "@/components/Header";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
+import { Star } from "lucide-react";
 
 export default function Dashboard() {
   const [rooms, setRooms] = useState<{id: string, name: string, capacity: number, description?: string}[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRoom, setSelectedRoom] = useState<{id: string, name: string} | null>(null);
 
   useEffect(() => {
-    fetchWithAuth("/room")
-      .then(data => {
-        if (Array.isArray(data)) setRooms(data);
-        else setRooms([]);
-      })
-      .catch(err => setError(err.message))
+    Promise.all([
+      fetchWithAuth("/room"),
+      fetchWithAuth("/user/favorites")
+    ]).then(([roomsData, favoritesData]) => {
+      if (Array.isArray(roomsData)) setRooms(roomsData);
+      else setRooms([]);
+      
+      if (Array.isArray(favoritesData)) {
+        setFavorites(favoritesData.map((f: any) => f.roomId));
+      }
+    }).catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
+
+  const toggleFavorite = async (roomId: string) => {
+    const isFav = favorites.includes(roomId);
+    
+    if (isFav) setFavorites(prev => prev.filter(id => id !== roomId));
+    else setFavorites(prev => [...prev, roomId]);
+
+    try {
+      if (isFav) {
+        await fetchWithAuth(`/user/favorites/${roomId}`, { method: "DELETE" });
+      } else {
+        await fetchWithAuth(`/user/favorites/${roomId}`, { method: "POST" });
+      }
+    } catch (err) {
+      if (isFav) setFavorites(prev => [...prev, roomId]);
+      else setFavorites(prev => prev.filter(id => id !== roomId));
+      alert("Erro ao atualizar favorito.");
+    }
+  };
 
   const handleReservationSuccess = () => {
     setSelectedRoom(null);
@@ -48,10 +74,25 @@ export default function Dashboard() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {rooms.map(room => (
-            <div key={room.id} className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-slate-100 transition-all duration-300 group">
+          {[...rooms].sort((a, b) => {
+            const aFav = favorites.includes(a.id);
+            const bFav = favorites.includes(b.id);
+            if (aFav && !bFav) return -1;
+            if (!aFav && bFav) return 1;
+            return a.name.localeCompare(b.name);
+          }).map(room => (
+            <div key={room.id} className={`bg-white p-6 rounded-lg shadow-sm border ${favorites.includes(room.id) ? 'border-yellow-300 shadow-yellow-100' : 'border-slate-100'} hover:shadow-xl transition-all duration-300 group`}>
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-blue-900 group-hover:text-blue-600 transition-colors">{room.name}</h3>
+                <div className="flex items-center gap-3">
+                  <h3 className="text-xl font-bold text-blue-900 group-hover:text-blue-600 transition-colors">{room.name}</h3>
+                  <button 
+                    onClick={() => toggleFavorite(room.id)} 
+                    className="text-slate-300 hover:text-yellow-400 hover:scale-110 transition-all focus:outline-none"
+                    title={favorites.includes(room.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                  >
+                    <Star size={20} className={favorites.includes(room.id) ? "fill-yellow-400 text-yellow-400" : ""} />
+                  </button>
+                </div>
                 <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-xs font-bold">
                   {room.capacity} pessoas
                 </span>
