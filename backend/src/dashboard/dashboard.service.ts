@@ -14,24 +14,15 @@ export class DashboardService {
     const completedReservations = await this.prisma.reservation.count({ where: { status: ReservationStatus.COMPLETED } });
     const cancelledReservations = await this.prisma.reservation.count({ where: { status: ReservationStatus.CANCELLED } });
 
-    // Próximas reservas (7 dias)
-    const nextWeek = new Date();
-    nextWeek.setDate(nextWeek.getDate() + 7);
-    
     const upcomingReservations = await this.prisma.reservation.findMany({
       where: {
-        status: ReservationStatus.ACTIVE,
-        startTime: {
-          gte: new Date(),
-          lte: nextWeek
-        }
+        status: ReservationStatus.ACTIVE
       },
       include: {
         room: { select: { name: true } },
         user: { select: { name: true } }
       },
-      orderBy: { startTime: 'asc' },
-      take: 10
+      orderBy: { startTime: 'asc' }
     });
 
     return {
