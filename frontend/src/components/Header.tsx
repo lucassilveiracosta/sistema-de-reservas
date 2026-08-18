@@ -32,11 +32,13 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <header className="bg-blue-900 border-b border-blue-800 sticky top-0 z-40 shadow-md">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <h1 className="text-xl font-extrabold text-blue-900 tracking-tight flex items-center gap-2">
-            <Image src="/img/ADA.png" alt="ReservADA Logo" width={32} height={32} className="rounded-md object-contain" />
+          <h1 className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <div className="bg-white p-1 rounded-md">
+              <Image src="/img/ADA.png" alt="ReservADA Logo" width={28} height={28} className="object-contain" />
+            </div>
             ReservADA
           </h1>
           
@@ -50,7 +52,7 @@ export default function Header() {
                   className={`px-4 py-2 rounded-md text-sm font-semibold transition-colors ${
                     isActive 
                       ? "bg-lime-500 text-blue-900 shadow-sm" 
-                      : "text-slate-600 hover:bg-slate-50 hover:text-blue-900"
+                      : "text-blue-100 hover:bg-blue-800 hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -62,15 +64,15 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-3">
-            <UserCircle size={32} strokeWidth={1.5} className="text-slate-400" />
+            <UserCircle size={32} strokeWidth={1.5} className="text-blue-300" />
             <div className="text-right">
-              <p className="text-sm font-bold text-slate-800">{name || "Usuário"}</p>
-              <p className="text-xs text-slate-500 font-medium">{role === "ADMIN" ? "Administrador" : "Colaborador"}</p>
+              <p className="text-sm font-bold text-white">{name || "Usuário"}</p>
+              <p className="text-xs text-blue-200 font-medium">{role === "ADMIN" ? "Administrador" : "Colaborador"}</p>
             </div>
           </div>
           <button 
             onClick={handleLogout} 
-            className="px-5 py-2 rounded-md border border-slate-200 text-slate-600 font-semibold hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-colors text-sm"
+            className="px-5 py-2 rounded-md border border-blue-700 text-blue-100 font-semibold hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors text-sm"
           >
             Sair
           </button>
@@ -78,7 +80,7 @@ export default function Header() {
       </div>
       
       {/* Mobile Nav */}
-      <nav className="md:hidden flex overflow-x-auto px-4 py-2 gap-2 bg-slate-50 border-t border-slate-100 hide-scrollbar">
+      <nav className="md:hidden flex overflow-x-auto px-4 py-2 gap-2 bg-blue-800 border-t border-blue-700 hide-scrollbar">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -88,7 +90,7 @@ export default function Header() {
               className={`whitespace-nowrap px-4 py-2 rounded-md text-xs font-semibold transition-colors ${
                 isActive 
                   ? "bg-lime-500 text-blue-900 shadow-sm" 
-                  : "bg-white border border-slate-200 text-slate-600"
+                  : "bg-blue-900 border border-blue-800 text-blue-100"
               }`}
             >
               {item.label}

@@ -29,7 +29,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-blue-50 text-slate-900">
       <Header />
       <main className="max-w-7xl mx-auto p-8 md:p-12">
       

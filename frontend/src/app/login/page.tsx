@@ -33,8 +33,8 @@ export default function Login() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-slate-50">
-      <div className="w-full max-w-md bg-white/60 backdrop-blur-xl rounded-lg shadow-lg border border-white/50 p-10">
+    <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-blue-900">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl border border-white/50 p-10">
         <h2 className="text-3xl font-extrabold text-blue-900 text-center mb-8">Bem-vindo(a)</h2>
         <form onSubmit={handleLogin} className="flex flex-col gap-6">
           <div>
@@ -44,7 +44,7 @@ export default function Login() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-md bg-white border border-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-slate-800"
+              className="w-full px-4 py-3 rounded-md bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-slate-800"
               placeholder="seu@email.com"
             />
           </div>
@@ -55,14 +55,14 @@ export default function Login() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-md bg-white border border-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-slate-800"
+              className="w-full px-4 py-3 rounded-md bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-slate-800"
               placeholder="••••••••"
             />
           </div>
           <button 
             type="submit" 
             disabled={loading}
-            className="mt-4 w-full py-4 rounded-md bg-blue-600 text-white font-bold tracking-wide shadow-lg hover:bg-blue-700 hover:shadow-slate-200 transition-all active:scale-[0.98] disabled:opacity-50"
+            className="mt-4 w-full py-4 rounded-md bg-lime-500 text-blue-900 font-extrabold tracking-wide shadow-lg hover:bg-lime-400 hover:shadow-lime-200 transition-all active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? "Entrando..." : "Entrar na Conta"}
           </button>

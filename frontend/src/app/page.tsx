@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-slate-50">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-blue-900 relative overflow-hidden">
       <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm flex flex-col space-y-8 text-center">
         <div className="flex flex-col items-center gap-6">
-          <Image src="/img/ADA.png" alt="ReservADA Logo" width={96} height={96} className="rounded-xl object-contain drop-shadow-md" />
-          <h1 className="text-5xl font-extrabold text-blue-900 tracking-tight">
+          <Image src="/img/ADA.png" alt="ReservADA Logo" width={96} height={96} className="rounded-xl object-contain drop-shadow-md bg-white p-2" />
+          <h1 className="text-5xl font-extrabold text-white tracking-tight">
             ReservADA
           </h1>
         </div>
