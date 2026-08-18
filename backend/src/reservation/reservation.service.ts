@@ -34,6 +34,17 @@ export class ReservationService {
       throw new ConflictException('Já existe uma reserva ativa para esta sala que conflita com este horário.');
     }
 
+    const conflictingMineReservations = await this.prisma.reservation.findFirst({
+      where: {
+        userId: userId,
+        status: ReservationStatus.ACTIVE,
+        startTime: { lt: end },
+        endTime: { gt: start }
+      }
+    })
+
+    if(conflictingMineReservations) throw new ConflictException('Você já realizou uma reserva em alguma sala nesse horário.');
+
     return this.prisma.reservation.create({
       data: {
         title: createReservationDto.title,
