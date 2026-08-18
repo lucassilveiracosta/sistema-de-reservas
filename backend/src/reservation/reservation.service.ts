@@ -34,6 +34,7 @@ export class ReservationService {
       throw new ConflictException('Já existe uma reserva ativa para esta sala que conflita com este horário.');
     }
 
+    // Validação para evitar que uma pessoa reserve duas salas diferentes ao mesmo tempo
     const conflictingMineReservations = await this.prisma.reservation.findFirst({
       where: {
         userId: userId,
