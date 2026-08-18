@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { UserCircle } from "lucide-react";
 
 export default function Header() {
   const [role, setRole] = useState<string | null>(null);
@@ -60,9 +61,12 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-bold text-slate-800">{name || "Usuário"}</p>
-            <p className="text-xs text-slate-500 font-medium">{role === "ADMIN" ? "Administrador" : "Colaborador"}</p>
+          <div className="hidden sm:flex items-center gap-3">
+            <UserCircle size={32} strokeWidth={1.5} className="text-slate-400" />
+            <div className="text-right">
+              <p className="text-sm font-bold text-slate-800">{name || "Usuário"}</p>
+              <p className="text-xs text-slate-500 font-medium">{role === "ADMIN" ? "Administrador" : "Colaborador"}</p>
+            </div>
           </div>
           <button 
             onClick={handleLogout} 
