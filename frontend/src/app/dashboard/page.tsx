@@ -60,7 +60,7 @@ export default function Dashboard() {
               
               <button 
                 onClick={() => setSelectedRoom(room)}
-                className="w-full py-3 rounded-md bg-blue-50 text-blue-700 font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors"
+                className="w-full py-3 rounded-md bg-blue-50 text-blue-700 font-bold group-hover:bg-lime-500 group-hover:text-blue-900 shadow-sm transition-colors"
               >
                 Agendar Horário
               </button>

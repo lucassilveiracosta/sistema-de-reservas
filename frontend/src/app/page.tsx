@@ -14,7 +14,7 @@ export default function Home() {
         <div className="flex gap-4 mt-8">
           <a
             href="/login"
-            className="px-8 py-3 rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-700 hover:shadow-slate-200 hover:-translate-y-0.5 transition-all duration-200"
+            className="px-8 py-3 rounded-md bg-lime-500 text-blue-900 font-bold shadow-lg hover:bg-lime-400 hover:shadow-slate-200 hover:-translate-y-0.5 transition-all duration-200"
           >
             Entrar
           </a>

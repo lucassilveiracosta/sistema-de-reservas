@@ -304,8 +304,8 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
                               className={`
                                 py-2 px-1 text-sm font-bold rounded-md border transition-all
                                 ${isOccupied ? 'bg-red-50 text-red-300 border-red-100 cursor-not-allowed line-through' : 
-                                  isSelected ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200 ring-2 ring-blue-600 ring-offset-1' : 
-                                  'bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:bg-blue-50'}
+                                  isSelected ? 'bg-lime-500 text-blue-900 border-lime-500 shadow-md shadow-lime-200 ring-2 ring-lime-500 ring-offset-1 font-extrabold' : 
+                                  'bg-white text-slate-600 border-slate-200 hover:border-lime-400 hover:bg-lime-50'}
                               `}
                             >
                               {block}
@@ -370,7 +370,7 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
             type="button"
             onClick={handleSubmit}
             disabled={loading || !selectedDate || !selectedStartBlock || !selectedEndBlock || !title.trim()}
-            className="px-8 py-3 rounded-md bg-blue-600 text-white font-bold tracking-wide shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-8 py-3 rounded-md bg-lime-500 text-blue-900 font-extrabold tracking-wide shadow-lg shadow-lime-200 hover:bg-lime-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-md animate-spin"></div>

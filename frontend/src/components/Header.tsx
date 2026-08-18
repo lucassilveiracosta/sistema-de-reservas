@@ -49,8 +49,8 @@ export default function Header() {
                   href={item.href}
                   className={`px-4 py-2 rounded-md text-sm font-semibold transition-colors ${
                     isActive 
-                      ? "bg-blue-50 text-blue-700" 
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      ? "bg-lime-500 text-blue-900 shadow-sm" 
+                      : "text-slate-600 hover:bg-slate-50 hover:text-blue-900"
                   }`}
                 >
                   {item.label}
@@ -87,7 +87,7 @@ export default function Header() {
               href={item.href}
               className={`whitespace-nowrap px-4 py-2 rounded-md text-xs font-semibold transition-colors ${
                 isActive 
-                  ? "bg-blue-100 text-blue-700" 
+                  ? "bg-lime-500 text-blue-900 shadow-sm" 
                   : "bg-white border border-slate-200 text-slate-600"
               }`}
             >
