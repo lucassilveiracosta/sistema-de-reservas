@@ -9,7 +9,4 @@ export class CreateRoomDto {
 
   @ApiProperty({ description: 'Capacidade de pessoas', example: 10 })
   capacity!: number;
-
-  @ApiProperty({ description: 'Recursos disponíveis na sala', type: [String], required: false, example: ['Projetor', 'Videoconferência', 'Quadro Branco'] })
-  resources?: string[];
 }

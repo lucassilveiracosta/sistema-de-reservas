@@ -21,7 +21,6 @@ export function DocsRoomFindAll() {
     ApiBearerAuth(),
     ApiOperation({ summary: 'Lista salas disponíveis com filtros avançados' }),
     ApiQuery({ name: 'capacity', required: false, description: 'Filtra salas com capacidade maior ou igual', type: Number }),
-    ApiQuery({ name: 'resourceId', required: false, description: 'Filtra salas que contêm o recurso específico' }),
     ApiQuery({ name: 'startDate', required: false, description: 'Data/hora de início pretendida para filtrar ocupação (Padrão ISO 8601)' }),
     ApiQuery({ name: 'endDate', required: false, description: 'Data/hora de fim pretendida para filtrar ocupação (Padrão ISO 8601)' }),
     ApiResponse({ status: 200, description: 'Lista de salas retornada com sucesso, de acordo com os filtros aplicados.' }),

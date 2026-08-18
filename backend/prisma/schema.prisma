@@ -53,32 +53,13 @@ model Room {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  resources     RoomResource[]
   reservations  Reservation[]
   favoritedBy   FavoriteRoom[]
 
   @@map("rooms")
 }
 
-model Resource {
-  id   String @id @default(uuid())
-  name String @unique 
 
-  rooms RoomResource[]
-
-  @@map("resources")
-}
-
-// Tabela aux para relação Muitos-para-Muitos entre Salas e Recursos
-model RoomResource {
-  roomId     String
-  room       Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  resourceId String
-  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-
-  @@id([roomId, resourceId])
-  @@map("room_resources")
-}
 
 model Reservation {
   id        String            @id @default(uuid())
