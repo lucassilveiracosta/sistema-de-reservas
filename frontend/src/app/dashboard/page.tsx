@@ -1,123 +1,169 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/services/api";
-import ReservationModal from "@/components/ReservationModal";
 import Header from "@/components/Header";
-import WeeklyCalendar from "@/components/WeeklyCalendar";
-import { Star } from "lucide-react";
+import { BarChart3, CheckCircle, Clock, XCircle, Home as RoomIcon } from "lucide-react";
 
-export default function Dashboard() {
-  const [rooms, setRooms] = useState<{id: string, name: string, capacity: number, description?: string}[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
+interface Statistics {
+  overview: {
+    totalRooms: number;
+    reservations: {
+      active: number;
+      completed: number;
+      cancelled: number;
+      total: number;
+    };
+  };
+  upcomingReservations: {
+    id: string;
+    title: string;
+    startTime: string;
+    endTime: string;
+    room: { name: string };
+    user: { name: string };
+  }[];
+}
+
+export default function AdminDashboard() {
+  const [stats, setStats] = useState<Statistics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedRoom, setSelectedRoom] = useState<{id: string, name: string} | null>(null);
 
   useEffect(() => {
-    Promise.all([
-      fetchWithAuth("/room"),
-      fetchWithAuth("/user/favorites")
-    ]).then(([roomsData, favoritesData]) => {
-      if (Array.isArray(roomsData)) setRooms(roomsData);
-      else setRooms([]);
-      
-      if (Array.isArray(favoritesData)) {
-        setFavorites(favoritesData.map((f: any) => f.roomId));
-      }
-    }).catch(err => setError(err.message))
+    // Basic role protection check in frontend
+    const role = localStorage.getItem("user_role");
+    if (role !== "ADMIN") {
+      window.location.href = "/salas";
+      return;
+    }
+
+    fetchWithAuth("/dashboard/statistics")
+      .then(data => setStats(data))
+      .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  const toggleFavorite = async (roomId: string) => {
-    const isFav = favorites.includes(roomId);
-    
-    if (isFav) setFavorites(prev => prev.filter(id => id !== roomId));
-    else setFavorites(prev => [...prev, roomId]);
-
-    try {
-      if (isFav) {
-        await fetchWithAuth(`/user/favorites/${roomId}`, { method: "DELETE" });
-      } else {
-        await fetchWithAuth(`/user/favorites/${roomId}`, { method: "POST" });
-      }
-    } catch (err) {
-      if (isFav) setFavorites(prev => [...prev, roomId]);
-      else setFavorites(prev => prev.filter(id => id !== roomId));
-      alert("Erro ao atualizar favorito.");
-    }
-  };
-
-  const handleReservationSuccess = () => {
-    setSelectedRoom(null);
-    alert("Reserva concluída com sucesso!");
-    // O calendário já possui auto-refresh, mas recarregar a página ou notificar é bom
-    window.location.reload();
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-blue-50 text-slate-900 flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="animate-pulse text-blue-900 font-bold text-xl">Carregando métricas...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-blue-50 text-slate-900">
+    <div className="min-h-screen bg-blue-50 text-slate-900 flex flex-col">
       <Header />
-      <main className="max-w-7xl mx-auto p-8 md:p-12">
       
-      <WeeklyCalendar />
+      <main className="max-w-7xl mx-auto w-full p-8 md:p-12">
+        <div className="mb-8 flex items-center gap-3">
+          <BarChart3 size={32} className="text-lime-600" />
+          <div>
+            <h1 className="text-3xl font-extrabold text-blue-900">Visão Geral</h1>
+            <p className="text-slate-500 font-medium mt-1">Acompanhe os números e o engajamento do ReservADA</p>
+          </div>
+        </div>
 
-      <section>
-        <h2 className="text-2xl font-bold text-slate-700 mb-6">Salas Disponíveis</h2>
-        
-        {loading && <p className="text-slate-500 animate-pulse">Buscando salas...</p>}
-        {error && <p className="text-red-500 p-4 bg-red-50 rounded-md">{error}</p>}
-        
-        {!loading && !error && rooms.length === 0 && (
-          <div className="p-8 text-center bg-white border border-slate-200 rounded-lg">
-            <p className="text-slate-500">Nenhuma sala cadastrada ainda.</p>
+        {error && (
+          <div className="mb-8 bg-red-50 text-red-700 p-4 rounded-md border border-red-200">
+            {error}
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...rooms].sort((a, b) => {
-            const aFav = favorites.includes(a.id);
-            const bFav = favorites.includes(b.id);
-            if (aFav && !bFav) return -1;
-            if (!aFav && bFav) return 1;
-            return a.name.localeCompare(b.name);
-          }).map(room => (
-            <div key={room.id} className={`bg-white p-6 rounded-lg shadow-sm border ${favorites.includes(room.id) ? 'border-yellow-300 shadow-yellow-100' : 'border-slate-100'} hover:shadow-xl transition-all duration-300 group`}>
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-xl font-bold text-blue-900 group-hover:text-blue-600 transition-colors">{room.name}</h3>
-                  <button 
-                    onClick={() => toggleFavorite(room.id)} 
-                    className="text-slate-300 hover:text-yellow-400 hover:scale-110 transition-all focus:outline-none"
-                    title={favorites.includes(room.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
-                  >
-                    <Star size={20} className={favorites.includes(room.id) ? "fill-yellow-400 text-yellow-400" : ""} />
-                  </button>
-                </div>
-                <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-xs font-bold">
-                  {room.capacity} pessoas
-                </span>
-              </div>
-              <p className="text-slate-500 text-sm mb-6 min-h-[40px]">{room.description || "Sem descrição"}</p>
+        {stats && (
+          <div className="space-y-10">
+            {/* Overview Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               
-              <button 
-                onClick={() => setSelectedRoom(room)}
-                className="w-full py-3 rounded-md bg-blue-50 text-blue-700 font-bold group-hover:bg-lime-500 group-hover:text-blue-900 shadow-sm transition-colors"
-              >
-                Agendar Horário
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-4 bg-blue-50 text-blue-600 rounded-full">
+                  <RoomIcon size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Salas Ativas</p>
+                  <p className="text-3xl font-extrabold text-blue-900">{stats.overview.totalRooms}</p>
+                </div>
+              </div>
 
-      {selectedRoom && (
-        <ReservationModal
-          room={selectedRoom}
-          onClose={() => setSelectedRoom(null)}
-          onSuccess={handleReservationSuccess}
-        />
-      )}
-    </main>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-4 bg-lime-50 text-lime-600 rounded-full">
+                  <Clock size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Agendamentos Futuros</p>
+                  <p className="text-3xl font-extrabold text-blue-900">{stats.overview.reservations.active}</p>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-4 bg-green-50 text-green-600 rounded-full">
+                  <CheckCircle size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Reservas Concluídas</p>
+                  <p className="text-3xl font-extrabold text-blue-900">{stats.overview.reservations.completed}</p>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-4 bg-red-50 text-red-500 rounded-full">
+                  <XCircle size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Cancelamentos</p>
+                  <p className="text-3xl font-extrabold text-blue-900">{stats.overview.reservations.cancelled}</p>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Upcoming Reservations List */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8">
+              <h2 className="text-xl font-bold text-blue-900 mb-6">Próximos Agendamentos (7 dias)</h2>
+              
+              {stats.upcomingReservations.length === 0 ? (
+                <p className="text-slate-500 italic">Nenhum agendamento futuro para os próximos 7 dias.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-slate-100 text-sm font-bold text-slate-400 uppercase tracking-wider">
+                        <th className="pb-4">Data e Hora</th>
+                        <th className="pb-4">Sala</th>
+                        <th className="pb-4">Solicitante</th>
+                        <th className="pb-4">Motivo</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50 text-sm">
+                      {stats.upcomingReservations.map(res => {
+                        const start = new Date(res.startTime);
+                        const end = new Date(res.endTime);
+                        return (
+                          <tr key={res.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="py-4 font-semibold text-slate-700">
+                              {start.toLocaleDateString('pt-BR')} <span className="text-blue-500 mx-1">•</span> 
+                              {start.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})} 
+                              {' - '}
+                              {end.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
+                            </td>
+                            <td className="py-4 font-bold text-blue-900">{res.room.name}</td>
+                            <td className="py-4 text-slate-600">{res.user.name}</td>
+                            <td className="py-4 text-slate-500">{res.title}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
+      </main>
     </div>
   );
 }

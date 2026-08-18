@@ -21,7 +21,7 @@ export default function Login() {
           localStorage.setItem("user_role", data.user.role);
           localStorage.setItem("user_name", data.user.name);
         }
-        window.location.href = "/dashboard";
+        window.location.href = "/salas";
       }
     } catch (e: unknown) {
       if (e instanceof Error) {

@@ -23,11 +23,12 @@ export default function Header() {
   };
 
   const navItems = [
-    { label: "Salas Disponíveis", href: "/dashboard" },
+    { label: "Salas Disponíveis", href: "/salas" },
     { label: "Minhas Reservas", href: "/reservations" },
   ];
 
   if (role === "ADMIN") {
+    navItems.push({ label: "Dashboard", href: "/dashboard" });
     navItems.push({ label: "Administração", href: "/admin/rooms" });
   }
 

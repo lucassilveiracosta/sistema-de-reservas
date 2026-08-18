@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ReservationStatus } from '@prisma/client';
+import { jwtSecret } from 'src/auth/jwt.strategy';
 
 @Injectable()
 export class DashboardService {
   constructor(private prisma: PrismaService) {}
-
+  
   async getStatistics() {
     const totalRooms = await this.prisma.room.count({ where: { isActive: true } });
     
