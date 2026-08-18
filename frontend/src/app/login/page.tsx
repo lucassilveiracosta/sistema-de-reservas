@@ -21,7 +21,7 @@ export default function Login() {
           localStorage.setItem("user_role", data.user.role);
           localStorage.setItem("user_name", data.user.name);
         }
-        window.location.href = "/salas";
+        window.location.href = "/rooms";
       }
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -67,6 +67,17 @@ export default function Login() {
             {loading ? "Entrando..." : "Entrar na Conta"}
           </button>
         </form>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-slate-500">
+            Se não é um usuário?{" "}
+            <a 
+              href="/register" 
+              className="text-blue-600 font-bold hover:underline transition-all"
+            >
+              (Cadastre-se)
+            </a>
+          </p>
+        </div>
       </div>
     </main>
   );

@@ -23,7 +23,7 @@ export default function Header() {
   };
 
   const navItems = [
-    { label: "Salas Disponíveis", href: "/salas" },
+    { label: "Salas Disponíveis", href: "/rooms" },
     { label: "Minhas Reservas", href: "/reservations" },
   ];
 
