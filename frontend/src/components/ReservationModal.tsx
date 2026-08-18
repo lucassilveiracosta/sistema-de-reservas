@@ -55,6 +55,9 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
       
       if (Array.isArray(res)) {
         res.forEach(reservation => {
+          
+          if(reservation.status !== 'ACTIVE') return;
+
           const resStart = new Date(reservation.startTime);
           const resEnd = new Date(reservation.endTime);
           
