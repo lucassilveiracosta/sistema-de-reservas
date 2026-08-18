@@ -2,13 +2,14 @@
 import { useEffect, useState, useMemo } from "react";
 import { fetchWithAuth } from "@/services/api";
 import Header from "@/components/Header";
-import { BarChart3, CheckCircle, Clock, XCircle, Home as RoomIcon, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
+import { BarChart3, CheckCircle, Clock, XCircle, Home as RoomIcon, ChevronLeft, ChevronRight, Calendar as CalendarIcon, Users } from "lucide-react";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, format, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface Statistics {
   overview: {
     totalRooms: number;
+    totalUsers: number;
     reservations: {
       active: number;
       completed: number;
@@ -91,8 +92,16 @@ export default function AdminDashboard() {
         {stats && (
           <div className="space-y-10">
             {/* Overview Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
               
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-4 bg-purple-50 text-purple-600 rounded-full"><Users size={24} /></div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Usuários</p>
+                  <p className="text-3xl font-extrabold text-blue-900">{stats.overview.totalUsers}</p>
+                </div>
+              </div>
+
               <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
                 <div className="p-4 bg-blue-50 text-blue-600 rounded-full"><RoomIcon size={24} /></div>
                 <div>
