@@ -22,10 +22,12 @@ export class DashboardController {
   @Get('all-users')
   @Roles(Role.ADMIN)
   findAllUsersDash(
+    
+    // Campo de preenchimento para páginação
     @Query('page') page?: string,
     @Query('limit') limit?: string
   ) {
-
+    
     const pageNumber = page ? parseInt(page, 10) : 1;
     const limitNumber = limit ? parseInt(limit, 10) : 10;
 
