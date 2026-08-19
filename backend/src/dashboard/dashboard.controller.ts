@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards , Query } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
@@ -17,5 +17,18 @@ export class DashboardController {
   @DocsDashboardStatistics()
   getStatistics() {
     return this.dashboardService.getStatistics();
+  }
+
+  @Get('all-users')
+  @Roles(Role.ADMIN)
+  findAllUsersDash(
+    @Query('page') page?: string,
+    @Query('limit') limit?: string
+  ) {
+
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    const limitNumber = limit ? parseInt(limit, 10) : 10;
+
+    return this.dashboardService.findAllUsersDash(pageNumber, limitNumber)
   }
 }
