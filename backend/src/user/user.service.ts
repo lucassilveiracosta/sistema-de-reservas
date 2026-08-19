@@ -29,19 +29,13 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    // Conta quantos usuários existem no banco
-    const usersCount = await this.prisma.user.count();
-    
-    // Se for o primeiro usuário do sistema (count === 0), ele vira ADMIN obrigatoriamente
-    const assignedRole = usersCount === 0 ? Role.ADMIN : (createUserDto.role as Role || Role.USER);
-
     const user = await this.prisma.user.create({
       data: {
         name: createUserDto.name,
         email: createUserDto.email,
         password: hashedPassword,
         cpf: createUserDto.cpf,
-        role: assignedRole,
+        role: (createUserDto.role as Role) || Role.USER,
       },
     });
 
