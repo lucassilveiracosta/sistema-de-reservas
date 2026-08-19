@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards , Query } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { DocsDashboardStatistics } from './docs/dashboard.swagger';
+import { DocsDashboardStatistics, DocsDashboardUserList } from './docs/dashboard.swagger';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from '@prisma/client';
 
@@ -21,6 +21,7 @@ export class DashboardController {
 
   @Get('all-users')
   @Roles(Role.ADMIN)
+  @DocsDashboardUserList()
   findAllUsersDash(
     
     // Campo de preenchimento para páginação
