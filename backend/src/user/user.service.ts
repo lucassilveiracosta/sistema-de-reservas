@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
+import { take } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -67,6 +68,38 @@ export class UserService {
         name: user.name,
         email: user.email,
         role: user.role,
+      }
+    };
+  }
+
+  async findAll(page: number = 1, limit: number = 10) {
+
+    const skip = (page - 1) * limit;
+    const [users, total] = await Promise.all([
+      this.prisma.user.findMany({
+        skip: skip,
+        take: limit,
+        select:{
+          id: true,
+          name: true,
+          cpf: true,
+          email: true,
+          createdAt: true
+        },
+        orderBy: { createdAt: 'desc' }
+      }),
+      this.prisma.user.count(),
+    ])
+
+    const totalPages = Math.ceil(total / limit);
+    
+    return {
+      data: users,
+      meta: {
+        totalItems: total,
+        itemsPerPage: limit,
+        totalPages: totalPages,
+        currentPage: page,
       }
     };
   }
