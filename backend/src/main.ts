@@ -8,7 +8,9 @@ import { link } from 'fs';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  app.enableCors();
+  app.enableCors({ 
+    origin: 'https://sistema-de-reservas-gamma.vercel.app/'
+  });
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
