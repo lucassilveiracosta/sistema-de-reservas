@@ -29,17 +29,17 @@ enum ReservationStatus {
 // ==========================================
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  cpf       String?  @unique
-  password  String   // Deve armazenar o hash da senha
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(uuid())
+  name              String
+  email             String   @unique
+  cpf               String?  @unique
+  password          String   // Deve armazenar o hash da senha
+  role              Role     @default(USER)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  reservations  Reservation[]
-  favoriteRooms FavoriteRoom[]
+  reservations      Reservation[]
+  favoriteRooms     FavoriteRoom[]
 
   @@map("users")
 }
