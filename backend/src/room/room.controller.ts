@@ -28,8 +28,10 @@ export class RoomController {
     @Query('capacity') capacity?: number,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
+    @Query('includeInactive') includeInactive?: string,
   ) {
-    return this.roomService.findAll({ capacity, startDate, endDate });
+    const include = includeInactive === 'true';
+    return this.roomService.findAll({ capacity, startDate, endDate, includeInactive: include });
   }
 
   @Get(':id')
@@ -43,6 +45,12 @@ export class RoomController {
   @DocsRoomUpdate()
   update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
     return this.roomService.update(id, updateRoomDto);
+  }
+
+  @Patch(':id/toggle-status')
+  @Roles(Role.ADMIN)
+  toggleStatus(@Param('id') id: string) {
+    return this.roomService.toggleRoomStatus(id);
   }
 
   @Delete(':id')

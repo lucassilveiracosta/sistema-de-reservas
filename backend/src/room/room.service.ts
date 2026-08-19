@@ -13,9 +13,14 @@ export class RoomService {
     });
   }
 
-  async findAll(filters: { capacity?: number; startDate?: string; endDate?: string }) {
-    const where: any = { isActive: true };
+  async findAll(filters: { capacity?: number; startDate?: string; endDate?: string; includeInactive?: boolean }) {
+    const where: any = {};
     
+    // Se não for pedido explicitamente para incluir inativas, filtra apenas as ativas
+    if (!filters.includeInactive) {
+      where.isActive = true;
+    }
+
     if (filters.capacity) {
       where.capacity = { gte: Number(filters.capacity) };
     }
@@ -52,6 +57,21 @@ export class RoomService {
       where: { id },
       data: updateRoomDto,
     });
+  }
+
+
+  // Altera o status da Sala
+  async toggleRoomStatus(id: string) {
+    const existingRoom = await this.prisma.room.findFirst({ where: { id: id } });
+
+    if(!existingRoom) throw new NotFoundException('Sala não encontrada.');
+
+    const toggleStatus = await this.prisma.room.update({ 
+      where: { id: id },
+      data: { isActive: !existingRoom.isActive }
+    });
+    
+    return toggleStatus;
   }
 
   async remove(id: string) {

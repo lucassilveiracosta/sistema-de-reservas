@@ -2,13 +2,14 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/services/api";
 import Header from "@/components/Header";
-import { Plus, Edit2, Trash2, MapPin, Users } from "lucide-react";
+import { Plus, Edit2, Trash2, MapPin, Users, Eye, EyeOff } from "lucide-react";
 
 interface Room {
   id: string;
   name: string;
   capacity: number;
   description: string;
+  isActive: boolean;
 }
 
 export default function AdminRooms() {
@@ -33,7 +34,7 @@ export default function AdminRooms() {
 
   const loadRooms = () => {
     setLoading(true);
-    fetchWithAuth("/room")
+    fetchWithAuth("/room?includeInactive=true")
       .then(data => {
         if (Array.isArray(data)) setRooms(data);
         else setRooms([]);
@@ -74,6 +75,18 @@ export default function AdminRooms() {
       if (err instanceof Error) alert("Erro ao salvar sala: " + err.message);
     } finally {
       setFormLoading(false);
+    }
+  };
+
+  const handleToggleStatus = async (id: string, name: string, isActive: boolean) => {
+    const action = isActive ? "desativar" : "ativar";
+    if (confirm(`Tem certeza que deseja ${action} a sala "${name}"?`)) {
+      try {
+        await fetchWithAuth(`/room/${id}/toggle-status`, { method: "PATCH" });
+        loadRooms();
+      } catch (err: unknown) {
+        if (err instanceof Error) alert(`Erro ao ${action}: ` + err.message);
+      }
     }
   };
 
@@ -120,12 +133,15 @@ export default function AdminRooms() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {rooms.map(room => (
-                <tr key={room.id} className="hover:bg-slate-50 transition-colors group">
+                <tr key={room.id} className={`hover:bg-slate-50 transition-colors group ${!room.isActive ? 'opacity-60' : ''}`}>
                   <td className="p-6 font-bold text-slate-800 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${room.isActive ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-400'}`}>
                       <MapPin size={20} />
                     </div>
-                    {room.name}
+                    <div>
+                      {room.name}
+                      {!room.isActive && <span className="ml-2 text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded-full">Inativa</span>}
+                    </div>
                   </td>
                   <td className="p-6 text-slate-600 font-medium hidden md:table-cell">
                     <span className="flex items-center gap-2">
@@ -143,6 +159,13 @@ export default function AdminRooms() {
                         title="Editar Sala"
                       >
                         <Edit2 size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleToggleStatus(room.id, room.name, room.isActive)}
+                        className={`p-2 rounded-lg transition-colors ${room.isActive ? 'text-amber-600 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                        title={room.isActive ? "Desativar Sala" : "Ativar Sala"}
+                      >
+                        {room.isActive ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                       <button 
                         onClick={() => handleDelete(room.id, room.name)}
