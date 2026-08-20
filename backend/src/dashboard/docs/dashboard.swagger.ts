@@ -11,3 +11,14 @@ export function DocsDashboardStatistics() {
     ApiResponse({ status: 500, description: 'Erro interno na agregação dos dados de estatísticas.' })
   );
 }
+
+export function DocsDashboardUserList() {
+  return applyDecorators(
+    ApiBearerAuth(),
+    ApiOperation({ summary: 'Retorna a lista de usuários ativos para o Dashboard' }),
+    ApiResponse({ status: 200, description: 'Sucesso: Lista de usuários com role USER' }),
+    ApiResponse({ status: 401, description: 'Não autorizado: É necessário fornecer o token de autenticação JWT.' }),
+    ApiResponse({ status: 403, description: 'Proibido: Acesso exclusivo para administradores, se as regras de negócio impuserem (Opcional).' }),
+    ApiResponse({ status: 500, description: 'Erro interno na agregação dos dados de estatísticas.' })
+  );
+}
