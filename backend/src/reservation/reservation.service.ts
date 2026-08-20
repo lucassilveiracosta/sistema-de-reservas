@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, MethodNotAllowedException } from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ReservationStatus } from '@prisma/client';
@@ -19,6 +19,9 @@ export class ReservationService {
     if (!room) {
       throw new NotFoundException('A sala especificada não foi encontrada.');
     }
+
+    const now = new Date;
+    if(start < now) throw new MethodNotAllowedException(`A reserva não pode ser feita antes do horário atual. ${now.getDay}/${now.getMonth}/${now.getFullYear} - ${now.getHours}:${now.getMinutes} `);
 
     // Validação de horários conflitantes na mesma sala
     const conflicting = await this.prisma.reservation.findFirst({
