@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
+import { take } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -70,6 +71,8 @@ export class UserService {
       }
     };
   }
+
+  
 
   async addFavoriteRoom(userId: string, roomId: string) {
     const room = await this.prisma.room.findUnique({ where: { id: roomId } });

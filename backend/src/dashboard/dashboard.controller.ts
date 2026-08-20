@@ -1,8 +1,8 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards , Query } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { DocsDashboardStatistics } from './docs/dashboard.swagger';
+import { DocsDashboardStatistics, DocsDashboardUserList } from './docs/dashboard.swagger';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from '@prisma/client';
 
@@ -17,5 +17,21 @@ export class DashboardController {
   @DocsDashboardStatistics()
   getStatistics() {
     return this.dashboardService.getStatistics();
+  }
+
+  @Get('all-users')
+  @Roles(Role.ADMIN)
+  @DocsDashboardUserList()
+  findAllUsersDash(
+    
+    // Campo de preenchimento para páginação
+    @Query('page') page?: string,
+    @Query('limit') limit?: string
+  ) {
+    
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    const limitNumber = limit ? parseInt(limit, 10) : 10;
+
+    return this.dashboardService.findAllUsersDash(pageNumber, limitNumber)
   }
 }
