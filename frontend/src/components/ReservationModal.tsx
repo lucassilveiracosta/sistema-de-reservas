@@ -293,17 +293,28 @@ export default function ReservationModal({ room, onClose, onSuccess }: Reservati
                       </p>
                       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
                         {allBlocks.map(block => {
-                          const isOccupied = occupiedBlocks.includes(block);
+                          const now = new Date();
+                          let isPastBlock = false;
+                          if (selectedDate && isSameDay(selectedDate, now)) {
+                            const [hour, minute] = block.split(':');
+                            const blockTime = new Date(selectedDate);
+                            blockTime.setHours(parseInt(hour), parseInt(minute), 0, 0);
+                            isPastBlock = blockTime < now;
+                          }
+
+                          const isOccupiedByReservation = occupiedBlocks.includes(block);
+                          const isDisabled = isOccupiedByReservation || isPastBlock;
                           const isSelected = selectedStartBlock === block;
                           return (
                             <button
                               key={`start-${block}`}
                               type="button"
-                              disabled={isOccupied}
+                              disabled={isDisabled}
                               onClick={() => setSelectedStartBlock(block)}
                               className={`
                                 py-2 px-1 text-sm font-bold rounded-md border transition-all
-                                ${isOccupied ? 'bg-red-50 text-red-300 border-red-100 cursor-not-allowed line-through' : 
+                                ${isOccupiedByReservation ? 'bg-red-50 text-red-300 border-red-100 cursor-not-allowed line-through' : 
+                                  isPastBlock ? 'bg-slate-50 text-slate-300 border-slate-200 cursor-not-allowed line-through' :
                                   isSelected ? 'bg-lime-500 text-blue-900 border-lime-500 shadow-md shadow-lime-200 ring-2 ring-lime-500 ring-offset-1 font-extrabold' : 
                                   'bg-white text-slate-600 border-slate-200 hover:border-lime-400 hover:bg-lime-50'}
                               `}
